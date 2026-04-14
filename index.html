@@ -7,7 +7,7 @@
 
 <style>
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   margin: 0;
   background: linear-gradient(to right, #ffd6e8, #e0f7ff);
 }
@@ -31,7 +31,7 @@ h1 {
   gap: 15px;
 }
 
-/* 💖 Photo Frame */
+/* 🖼️ Photo frame */
 .frame {
   background: #fff;
   padding: 10px;
@@ -56,6 +56,13 @@ h1 {
   border-radius: 10px;
 }
 
+/* 🎵 player spacing */
+audio {
+  margin-top: 10px;
+  display: block;
+}
+
+/* 💌 button */
 button {
   margin-top: 10px;
   padding: 8px 14px;
@@ -65,7 +72,7 @@ button {
   cursor: pointer;
 }
 
-/* 💌 Popup */
+/* 💌 popup */
 .popup {
   display: none;
   position: fixed;
@@ -83,6 +90,7 @@ button {
   padding: 20px;
   border-radius: 15px;
   text-align: center;
+  max-width: 400px;
   animation: pop 0.3s ease;
 }
 
@@ -99,12 +107,14 @@ button {
 
 <div id="container"></div>
 
+<!-- 💌 POPUP -->
 <div class="popup" id="popup" onclick="closePopup()">
   <div class="popup-box" id="popupText"></div>
 </div>
 
 <script>
 
+// 📅 MONTH LIST
 const months = [
   "December 2024",
   "January 2025","February 2025","March 2025","April 2025","May 2025","June 2025",
@@ -115,6 +125,7 @@ const months = [
 
 const container = document.getElementById("container");
 
+// 🔁 CREATE MONTHS
 months.forEach(month => {
 
   const section = document.createElement("div");
@@ -123,14 +134,16 @@ months.forEach(month => {
   const title = document.createElement("h2");
   title.textContent = month;
 
-  // 🎵 YEAR-WISE MUSIC
+  // 🎵 YEAR-BASED MUSIC
   const year = month.split(" ")[1];
-  const music = document.createElement("div");
-  music.innerHTML = `
-    <audio controls>
-      <source src="songs/${year}.mp3">
-    </audio>
-  `;
+
+  const audio = document.createElement("audio");
+  audio.controls = true;
+
+  const source = document.createElement("source");
+  source.src = `songs/${year}.mp3`;
+
+  audio.appendChild(source);
 
   // 💌 BUTTON
   const btn = document.createElement("button");
@@ -144,6 +157,7 @@ months.forEach(month => {
   let totalPhotos = (month === "December 2024") ? 10 : 20;
 
   for (let i = 1; i <= totalPhotos; i++) {
+
     const frame = document.createElement("div");
     frame.className = "frame";
 
@@ -156,7 +170,7 @@ months.forEach(month => {
   }
 
   section.appendChild(title);
-  section.appendChild(music);
+  section.appendChild(audio);
   section.appendChild(btn);
   section.appendChild(gallery);
 
@@ -164,16 +178,29 @@ months.forEach(month => {
 });
 
 
-// 💌 POPUP TEXT
+// 💌 POPUP (YEAR TEXT)
 function openPopup(month) {
 
-  let text = `<b>${month}</b><br><br>Write your memories here 💖`;
+  const year = month.split(" ")[1];
+  let text = "";
 
-  if(month === "December 2024"){
-    text = "<b>Magical winter ❄️</b><br><br>Cozy nights and beautiful memories 💕";
+  if(year === "2024"){
+    text = "<b>2024 was magical ✨</b><br><br>Beautiful beginnings and cozy memories 💕";
   }
 
-  document.getElementById("popupText").innerHTML = text;
+  else if(year === "2025"){
+    text = "<b>2025 was a journey 🌟</b><br><br>Growth, learning, and unforgettable moments 💫";
+  }
+
+  else if(year === "2026"){
+    text = "<b>2026 feels beautiful 💖</b><br><br>New dreams and happy memories ahead 🌸";
+  }
+
+  document.getElementById("popupText").innerHTML = `
+    <h2>${month}</h2>
+    <p>${text}</p>
+  `;
+
   document.getElementById("popup").style.display = "flex";
 }
 
